@@ -1,0 +1,261 @@
+<!--
+Simple, creative, professional single-file portfolio for Nithish (Designer)
+Save this file as `index.html` and open in your browser.
+Replace project images, text, and links with your own.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nithish — Designer Portfolio</title>
+  <meta name="description" content="Portfolio of Nithish — UI/Graphic/Product Designer" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --muted:#98a0b3;
+      --accent:#ffb86b; /* warm accent */
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --gutter:24px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background: linear-gradient(180deg,var(--bg) 0%, #071024 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding:40px;
+    }
+    .container{max-width:1100px;margin:0 auto}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff7fa3);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.6);font-weight:800;color:#071024}
+    .brand h1{font-size:18px;margin:0}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-size:14px}
+    .cta{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:10px;color:var(--accent);font-weight:600}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:36px}
+    .intro{padding:26px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+    .intro h2{font-size:32px;margin:0 0 8px}
+    .intro p{color:var(--muted);margin:0 0 18px}
+    .tags{display:flex;gap:10px;flex-wrap:wrap}
+    .tag{background:var(--glass);padding:8px 10px;border-radius:10px;font-size:13px;color:var(--muted)}
+
+    /* Preview card */
+    .preview{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+    .mock{height:280px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#07122a,#0b1530);border:1px solid rgba(255,255,255,0.02)}
+    .mock img{max-width:100%;height:auto}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+
+    /* Projects grid */
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:34px}
+    .project{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease}
+    .project:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,23,0.5)}
+    .project img{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+    .project h3{margin:0;font-size:16px}
+    .project p{color:var(--muted);font-size:13px;margin:6px 0 0}
+
+    /* About + Contact */
+    .split{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .contact form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:inherit}
+    button{background:var(--accent);border:none;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.65), rgba(2,6,23,0.85));z-index:60}
+    .modal.open{display:flex}
+    .dialog{width:min(920px,96%);background:linear-gradient(180deg,#071025,#07162b);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .dialog .media{height:420px;border-radius:10px;overflow:hidden;margin-bottom:12px}
+    .dialog img{width:100%;height:100%;object-fit:contain}
+    .close{position:absolute;top:18px;right:18px;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .projects{grid-template-columns:repeat(2,1fr)}
+      .split{grid-template-columns:1fr}
+    }
+    @media (max-width:560px){
+      body{padding:20px}
+      .projects{grid-template-columns:1fr}
+      nav{display:none}
+      .brand p{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">N</div>
+        <div>
+          <h1>Nithish</h1>
+          <p>Designer — UI / Graphic / Product</p>
+        </div>
+      </div>
+      <nav>
+        <a href="#projects">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="#contact">Hire</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="intro">
+        <h2>Design that speaks — clean, bold, usable.</h2>
+        <p>Hi, I'm <strong>Nithish</strong>. I craft interfaces, brand visuals and product concepts that feel modern and intentional. I focus on clarity, craft and delightful details.</p>
+        <div class="tags" aria-hidden>
+          <span class="tag">UI Design</span>
+          <span class="tag">Branding</span>
+          <span class="tag">Illustration</span>
+          <span class="tag">Prototyping</span>
+        </div>
+        <div style="height:18px"></div>
+        <div style="display:flex;gap:10px">
+          <a class="cta" href="#projects">View work</a>
+          <a style="background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none" href="#about">Download CV</a>
+        </div>
+      </div>
+
+      <aside class="preview">
+        <div class="mock">
+          <!-- Replace with a screenshot of your best work -->
+          <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b4b6b6a3d0a7fa6f6f5b6f6f" alt="Project mockup">
+        </div>
+        <div class="meta">
+          <div>
+            <div style="font-weight:700">Selected Project</div>
+            <div style="color:var(--muted);font-size:13px">Mobile app UI • Brand identity</div>
+          </div>
+          <div style="text-align:right;color:var(--muted)">2025</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="projects">
+      <h2 style="margin-bottom:12px">Selected Work</h2>
+      <div class="projects">
+        <!-- Repeat these .project blocks for each project -->
+        <div class="project" data-title="Brand Refresh — Solace" data-desc="Branding, Logo, Packaging" data-img="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=32a4b5a4a6">
+          <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=32a4b5a4a6" alt="Project">
+          <h3>Solace — Brand Refresh</h3>
+          <p>Branding • Packaging • Art direction</p>
+        </div>
+
+        <div class="project" data-title="App UI — Zephyr" data-desc="UI/UX, Prototyping" data-img="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=fa3f1a3d1a">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=fa3f1a3d1a" alt="Project">
+          <h3>Zephyr — Mobile App</h3>
+          <p>UI Design • Interaction</p>
+        </div>
+
+        <div class="project" data-title="Packaging — Ember" data-desc="Graphic Design, Illustration" data-img="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234">
+          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234" alt="Project">
+          <h3>Ember — Packaging</h3>
+          <p>Illustration • Print</p>
+        </div>
+
+        <div class="project" data-title="E‑commerce UI — Luma" data-desc="UI, Visual Design" data-img="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=ef12ab34">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=ef12ab34" alt="Project">
+          <h3>Luma — Storefront</h3>
+          <p>Web UI • Product photos</p>
+        </div>
+
+        <div class="project" data-title="Campaign — North Star" data-desc="Art Direction" data-img="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=888abcde">
+          <img src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=888abcde" alt="Project">
+          <h3>North Star — Campaign</h3>
+          <p>Art Direction • Campaign</p>
+        </div>
+
+        <div class="project" data-title="Icon Pack — Orbit" data-desc="Illustration" data-img="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=1234abcd">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=1234abcd" alt="Project">
+          <h3>Orbit — Icon System</h3>
+          <p>Icons • Visual language</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="about" class="split">
+      <div class="card">
+        <h3>About Me</h3>
+        <p style="color:var(--muted)">I'm a designer focused on creating clean, usable experiences across brand, product and illustration. I balance craft with speed — delivering polished work that solves real problems.</p>
+        <ul style="color:var(--muted);margin-top:12px">
+          <li>Tools: Figma, Illustrator, Photoshop, After Effects</li>
+          <li>Specialties: Branding, UI, Prototyping</li>
+          <li>Location: Palladam, Tirupur · Open to remote work</li>
+        </ul>
+      </div>
+
+      <aside class="card contact" id="contact">
+        <h3>Contact</h3>
+        <form onsubmit="event.preventDefault(); alert('Thanks! Email me at: hello@nithish.design');">
+          <input type="text" placeholder="Your name" required>
+          <input type="email" placeholder="Email" required>
+          <textarea rows="4" placeholder="Message"></textarea>
+          <button type="submit">Send</button>
+        </form>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">Or email: <strong>hello@nithish.design</strong></div>
+      </aside>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Nithish — Crafted with care. • <span style="color:var(--muted)">Designed & built by me</span>
+    </footer>
+  </div>
+
+  <!-- Modal for project detail -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <div class="dialog" role="document">
+      <button class="close" aria-label="Close" onclick="closeModal()">✕</button>
+      <div class="media"><img id="modalImg" src="" alt="Project"></div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc" style="color:var(--muted)"></p>
+    </div>
+  </div>
+
+  <script>
+    // populate year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // project modal
+    const projects = document.querySelectorAll('.project');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+
+    projects.forEach(p=> p.addEventListener('click', ()=>{
+      const img = p.getAttribute('data-img') || p.querySelector('img').src;
+      const title = p.getAttribute('data-title') || p.querySelector('h3').textContent;
+      const desc = p.getAttribute('data-desc') || p.querySelector('p').textContent;
+      modalImg.src = img;
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modal.classList.add('open');
+    }))
+
+    function closeModal(){ modal.classList.remove('open'); }
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    // Accessibility: close with Esc
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>
